@@ -1,0 +1,20 @@
+[package]
+name = "cargo-lst"
+version = "0.1.0"
+edition = "2024"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/vi-is-ramen/cargo-lst"
+description = "Rust-based command-line tool that generates a Markdown snapshot of your current directory"
+authors = ["Ivan Chetchasov <vi.is.chapmann@gmail.com>"]
+
+[[bin]]
+path = "src/main.rs"
+name = "cargo-lst"
+
+[[bin]]
+path = "src/main.rs"
+name = "lst"
+
+[dependencies]
+ignore = "0.4.33"
