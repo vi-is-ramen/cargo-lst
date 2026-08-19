@@ -50,7 +50,7 @@ fn main() -> io::Result<()> {
     let root = Path::new(".");
     let mut builder = WalkBuilder::new(root);
     builder.git_ignore(true); // enabled by default, but explicit
-    builder.hidden(true); // collect hiddens too!
+    builder.hidden(false); // collect hiddens too!
 
     // Add .lstignore if it exists in the current directory
     let lstignore_path = Path::new(".lstignore");
