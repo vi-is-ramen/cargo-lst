@@ -6,6 +6,8 @@ use std::path::{Path, PathBuf};
 
 use ignore::WalkBuilder;
 
+const TMP_IGNORE: &str = ".___cargo__lst__ignore___";
+
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
 
@@ -50,7 +52,14 @@ fn main() -> io::Result<()> {
     let root = Path::new(".");
     let mut builder = WalkBuilder::new(root);
     builder.git_ignore(true); // enabled by default, but explicit
+
+    let remove_tmp_ignore =
+        std::fs::write(TMP_IGNORE, String::from(".git/\n") + TMP_IGNORE).is_ok();
     builder.hidden(false); // collect hiddens too!
+
+    if remove_tmp_ignore {
+        builder.add_ignore(TMP_IGNORE);
+    }
 
     // Add .lstignore if it exists in the current directory
     let lstignore_path = Path::new(".lstignore");
@@ -136,5 +145,10 @@ fn main() -> io::Result<()> {
 
     // Ensure all writes are flushed
     output.flush()?;
+
+    if remove_tmp_ignore {
+        let _ = std::fs::remove_file(TMP_IGNORE);
+    }
+
     Ok(())
 }
